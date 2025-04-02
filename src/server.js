@@ -1,14 +1,10 @@
 import express from 'express';
 import cors from 'cors';
 import pino from 'pino-http';
-
 import { getAllContacts, getContactById } from './services/contacts.js';
 import { getEnvVar } from './utils/getEnvVar.js';
-// import contacts from './db/contacts.js';
 
-// import dotenv from 'dotenv';
-// dotenv.config();
-// const port = Number(process.env.PORT);
+
 const port = Number(getEnvVar('PORT', 3000));
 
 export const setupServer = () => {
@@ -43,8 +39,8 @@ export const setupServer = () => {
       return;
     }
     // Відповідь, якщо контакт знайдено
-    res.contact(200).json({
-      message: 'Successfully found contact with id {contactId}!',
+    res.status(200).json({
+      message: `Successfully found contact with id ${contactId}!`,
       data: contact,
     });
   });
