@@ -20,20 +20,10 @@ const parseType = (contactType) => {
 // };
 
 export const parseFilterParams = (query) => {
-  //   const { contactType, maxAge, minAge, maxAvgMark, minAvgMark } = query;
   const { contactType } = query;
-
   const parsedType = parseType(contactType);
-  //   const parsedMaxAge = parseNumber(maxAge);
-  //   const parsedMinAge = parseNumber(minAge);
-  //   const parsedMaxAvgMark = parseNumber(maxAvgMark);
-  //   const parsedMinAvgMark = parseNumber(minAvgMark);
 
   return {
     contactType: parsedType,
-    // maxAge: parsedMaxAge,
-    // minAge: parsedMinAge,
-    // maxAvgMark: parsedMaxAvgMark,
-    // minAvgMark: parsedMinAvgMark,
   };
 };
