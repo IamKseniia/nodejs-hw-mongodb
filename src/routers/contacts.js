@@ -13,6 +13,7 @@ import {
 import { validateBody } from '../middlewares/validateBody.js';
 import { isValidId } from '../middlewares/isValidId.js';
 import { authenticate } from '../middlewares/authenticate.js';
+import { upload } from '../middlewares/multer.js';
 import {
   createContactSchema,
   updateContactSchema,
@@ -39,6 +40,29 @@ router.put('/:contactId', isValidId, ctrlWrapper(upsertContactController));
 router.patch(
   '/:contactId',
   isValidId,
+  validateBody(updateContactSchema),
+  ctrlWrapper(patchContactController),
+);
+
+router.post(
+  '/',
+  upload.single('photo'), // додаємо цю middleware
+  validateBody(createContactSchema),
+  ctrlWrapper(createContactController),
+);
+
+router.put(
+  '/:contactId',
+  isValidId,
+  upload.single('photo'), // додаємо цю middleware
+  validateBody(createContactSchema),
+  ctrlWrapper(upsertContactController),
+);
+
+router.patch(
+  '/:contactId',
+  isValidId,
+  upload.single('photo'), // додаємо цю middleware
   validateBody(updateContactSchema),
   ctrlWrapper(patchContactController),
 );
