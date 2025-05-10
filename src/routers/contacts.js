@@ -29,6 +29,7 @@ router.get('/:contactId', isValidId, ctrlWrapper(getContactByIdController));
 
 router.post(
   '/',
+  upload.single('photo'),
   validateBody(createContactSchema),
   ctrlWrapper(createContactController),
 );
@@ -40,29 +41,7 @@ router.put('/:contactId', isValidId, ctrlWrapper(upsertContactController));
 router.patch(
   '/:contactId',
   isValidId,
-  validateBody(updateContactSchema),
-  ctrlWrapper(patchContactController),
-);
-
-router.post(
-  '/',
-  upload.single('photo'), // додаємо цю middleware
-  validateBody(createContactSchema),
-  ctrlWrapper(createContactController),
-);
-
-router.put(
-  '/:contactId',
-  isValidId,
-  upload.single('photo'), // додаємо цю middleware
-  validateBody(createContactSchema),
-  ctrlWrapper(upsertContactController),
-);
-
-router.patch(
-  '/:contactId',
-  isValidId,
-  upload.single('photo'), // додаємо цю middleware
+  upload.single('photo'),
   validateBody(updateContactSchema),
   ctrlWrapper(patchContactController),
 );
