@@ -1,4 +1,4 @@
-#/swagger/paths/students/get.yaml
+#/swagger/paths/contacts/get.yaml
 
 tags:
   - Contacts
@@ -56,6 +56,7 @@ responses:
             data:
               type: object
               required:
+                - contacts
                 - page
                 - perPage
                 - totalItems
@@ -63,17 +64,21 @@ responses:
                 - hasNextPage
                 - hasPreviousPage
               properties:
+                contacts:
+                  type: array
+                  items:
+                    $ref: '../../components/schemas/contact.yaml'
                 page:
-                  type: number
+                  type: integer
                   example: 2
                 perPage:
-                  type: number
+                  type: integer
                   example: 4
                 totalItems:
-                  type: number
+                  type: integer
                   example: 4
                 totalPages:
-                  type: number
+                  type: integer
                   example: 4
                 hasNextPage:
                   type: boolean
@@ -83,3 +88,5 @@ responses:
                   example: true
   '401':
     $ref: '../../components/responses/401.yaml'
+  '500':
+    $ref: '../../components/responses/500.yaml'

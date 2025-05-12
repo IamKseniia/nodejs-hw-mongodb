@@ -8,18 +8,31 @@ required:
   - userId
 properties:
   name:
-    description: 'Contact name'
+    description: "Contact's name"
     type: string
     example: 'John Doe'
   phoneNumber:
-    description: 'Contact phone number'
+    description: "Contact's phone number"
     type: string
     example: +380000000004
+  email:
+    description: 'Contact email'
+    type: string
+    example: 'johndoe@mail.com'
+  isFavourite:
+    description: 'Is favourite'
+    type: boolean
+    example: false
   contactType:
-    description: 'Contact type'
+    description: "Contact's type"
     type: string
     enum: ['work', 'home', 'personal']
+    default: 'personal'
   userId:
-    description: 'User id'
+    description: 'ObjectId of the user who owns this contact'
     type: string
     example: 65e4decdd286b30065d54af9
+  photo:
+    description: "Link to contact's photo"
+    type: string
+    example: https://res.cloudinary.com/uqwgdu/image/upload/image.png

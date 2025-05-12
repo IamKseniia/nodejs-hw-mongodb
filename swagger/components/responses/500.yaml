@@ -1,6 +1,6 @@
-# swagger/components/responses/400.yaml
+# swagger/components/responses/500.yaml
 
-description: Bad request
+description: Internal server error
 content:
   application/json:
     schema:
@@ -12,10 +12,10 @@ content:
       properties:
         status:
           type: integer
-          example: 400
+          example: 500
         message:
           type: string
-          example: Bad request
+          example: 'Internal Server Error'
         data:
           type: object
           required:
@@ -23,4 +23,4 @@ content:
           properties:
             message:
               type: string
-              example: 'Invalid request body'
+              example: 'Something went wrong on the server.'

@@ -1,4 +1,6 @@
-description: Access token expired
+# swagger/components/responses/401.yaml
+
+description: Unauthorized - access token is missing or invalid
 content:
   application/json:
     schema:
@@ -13,7 +15,7 @@ content:
           example: 401
         message:
           type: string
-          example: UnauthorizedError
+          example: Unauthorized Error
         data:
           type: object
           required:

@@ -1,6 +1,6 @@
 # swagger/components/responses/404.yaml
 
-description: 'Contact not found!'
+description: 'Resource not found'
 content:
   application/json:
     schema:
@@ -15,7 +15,7 @@ content:
           example: 404
         message:
           type: string
-          example: 'Contact not found!'
+          example: 'Not found'
         data:
           type: object
           required:
