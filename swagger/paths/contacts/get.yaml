@@ -30,11 +30,6 @@ parameters:
       type: string
       enum: ['asc', 'desc']
       example: 'asc'
-  - in: query
-    name: userId
-    schema:
-      type: string
-      example: 681f6965093775644321ca49
 responses:
   '200':
     description: Successfully found contacts!

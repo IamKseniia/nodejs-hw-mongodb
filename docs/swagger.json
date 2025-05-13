@@ -21,10 +21,6 @@
     {
       "name": "Contacts",
       "description": "Operations about contacts."
-    },
-    {
-      "name": "Auth",
-      "description": "Auth operations."
     }
   ],
   "paths": {
@@ -78,14 +74,6 @@
               ],
               "example": "asc"
             }
-          },
-          {
-            "in": "query",
-            "name": "userId",
-            "schema": {
-              "type": "string",
-              "example": "681f6965093775644321ca49"
-            }
           }
         ],
         "responses": {
@@ -112,6 +100,7 @@
                     "data": {
                       "type": "object",
                       "required": [
+                        "contacts",
                         "page",
                         "perPage",
                         "totalItems",
@@ -120,20 +109,26 @@
                         "hasPreviousPage"
                       ],
                       "properties": {
+                        "contacts": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/contact"
+                          }
+                        },
                         "page": {
-                          "type": "number",
+                          "type": "integer",
                           "example": 2
                         },
                         "perPage": {
-                          "type": "number",
+                          "type": "integer",
                           "example": 4
                         },
                         "totalItems": {
-                          "type": "number",
+                          "type": "integer",
                           "example": 4
                         },
                         "totalPages": {
-                          "type": "number",
+                          "type": "integer",
                           "example": 4
                         },
                         "hasNextPage": {
@@ -153,6 +148,9 @@
           },
           "401": {
             "$ref": "#/components/responses/401"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
           }
         }
       },
@@ -176,8 +174,7 @@
                 "required": [
                   "name",
                   "phoneNumber",
-                  "contactType",
-                  "userId"
+                  "contactType"
                 ],
                 "properties": {
                   "name": {
@@ -188,21 +185,32 @@
                   "phoneNumber": {
                     "description": "Contact phone number",
                     "type": "string",
-                    "example": 380000000004
+                    "example": "+380000000004"
+                  },
+                  "email": {
+                    "description": "Contact email",
+                    "type": "string",
+                    "example": "johndoe@mail.com"
+                  },
+                  "isFavourite": {
+                    "description": "Is favourite",
+                    "type": "boolean",
+                    "example": false
                   },
                   "contactType": {
-                    "description": "Contact type",
+                    "description": "Contact's type",
                     "type": "string",
                     "enum": [
                       "work",
                       "home",
                       "personal"
-                    ]
+                    ],
+                    "default": "personal"
                   },
-                  "userId": {
-                    "description": "User id",
+                  "photo": {
+                    "description": "Contact's photo",
                     "type": "string",
-                    "example": "65e4decdd286b30065d54af9"
+                    "format": "binary"
                   }
                 }
               }
@@ -211,7 +219,7 @@
         },
         "responses": {
           "201": {
-            "description": "Creates a contact",
+            "description": "Successfully created a contact",
             "content": {
               "application/json": {
                 "schema": {
@@ -241,6 +249,12 @@
           },
           "400": {
             "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
           }
         }
       }
@@ -260,9 +274,10 @@
         ],
         "parameters": [
           {
-            "in": "path",
             "name": "id",
+            "in": "path",
             "required": true,
+            "description": "The ID of the contact to retrieve",
             "schema": {
               "type": "string",
               "example": "65ca67e7ae7f10c88b598384"
@@ -271,7 +286,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Get contact by id",
+            "description": "Successfully retrieved contact",
             "content": {
               "application/json": {
                 "schema": {
@@ -288,10 +303,9 @@
                     },
                     "message": {
                       "type": "string",
-                      "example": "Successfully found contact with id 65ca67e7ae7f10c88b598384!"
+                      "example": "Contact found successfully"
                     },
                     "data": {
-                      "type": "object",
                       "$ref": "#/components/schemas/contact"
                     }
                   }
@@ -299,8 +313,17 @@
               }
             }
           },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
           }
         }
       },
@@ -321,6 +344,7 @@
             "in": "path",
             "name": "id",
             "required": true,
+            "description": "The ID of the contact to update",
             "schema": {
               "type": "string",
               "example": "65ca67e7ae7f10c88b598384"
@@ -370,7 +394,7 @@
         },
         "responses": {
           "200": {
-            "description": "Successfully patched a contact",
+            "description": "Contact updated successfully!",
             "content": {
               "application/json": {
                 "schema": {
@@ -387,10 +411,9 @@
                     },
                     "message": {
                       "type": "string",
-                      "example": "Successfully patched a contact!"
+                      "example": "Contact updated successfully!"
                     },
                     "data": {
-                      "type": "object",
                       "$ref": "#/components/schemas/contact"
                     }
                   }
@@ -398,8 +421,17 @@
               }
             }
           },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
           }
         }
       },
@@ -420,6 +452,7 @@
             "in": "path",
             "name": "id",
             "required": true,
+            "description": "The ID of the contact to delete",
             "schema": {
               "type": "string",
               "example": "65ca67e7ae7f10c88b598384"
@@ -430,8 +463,17 @@
           "204": {
             "description": "The contact has deleted successfully."
           },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
           }
         }
       }
@@ -442,6 +484,64 @@
       "bearerAuth": {
         "type": "http",
         "scheme": "bearer"
+      }
+    },
+    "schemas": {
+      "contact": {
+        "type": "object",
+        "required": [
+          "name",
+          "phoneNumber",
+          "contactType",
+          "userId"
+        ],
+        "properties": {
+          "_id": {
+            "description": "Contact's id",
+            "type": "string",
+            "example": "65e4decdd333b30065d54af9"
+          },
+          "name": {
+            "description": "Contact's name",
+            "type": "string",
+            "example": "John Doe"
+          },
+          "phoneNumber": {
+            "description": "Contact's phone number",
+            "type": "string",
+            "example": 380000000004
+          },
+          "email": {
+            "description": "Contact email",
+            "type": "string",
+            "example": "johndoe@mail.com"
+          },
+          "isFavourite": {
+            "description": "Is favourite",
+            "type": "boolean",
+            "example": false
+          },
+          "contactType": {
+            "description": "Contact's type",
+            "type": "string",
+            "enum": [
+              "work",
+              "home",
+              "personal"
+            ],
+            "default": "personal"
+          },
+          "userId": {
+            "description": "ObjectId of the user who owns this contact",
+            "type": "string",
+            "example": "65e4decdd286b30065d54af9"
+          },
+          "photo": {
+            "description": "Link to contact's photo",
+            "type": "string",
+            "example": "https://res.cloudinary.com/uqwgdu/image/upload/image.png"
+          }
+        }
       }
     },
     "responses": {
@@ -468,10 +568,10 @@
                 "data": {
                   "type": "object",
                   "required": [
-                    "errors"
+                    "message"
                   ],
                   "properties": {
-                    "errors": {
+                    "message": {
                       "type": "string",
                       "example": "Invalid request body"
                     }
@@ -483,7 +583,7 @@
         }
       },
       "401": {
-        "description": "Access token expired",
+        "description": "Unauthorized - access token is missing or invalid",
         "content": {
           "application/json": {
             "schema": {
@@ -500,7 +600,7 @@
                 },
                 "message": {
                   "type": "string",
-                  "example": "UnauthorizedError"
+                  "example": "Unauthorized Error"
                 },
                 "data": {
                   "type": "object",
@@ -520,7 +620,7 @@
         }
       },
       "404": {
-        "description": "Contact not found!",
+        "description": "Resource not found",
         "content": {
           "application/json": {
             "schema": {
@@ -537,7 +637,7 @@
                 },
                 "message": {
                   "type": "string",
-                  "example": "Contact not found!"
+                  "example": "Not found"
                 },
                 "data": {
                   "type": "object",
@@ -555,41 +655,41 @@
             }
           }
         }
-      }
-    },
-    "schemas": {
-      "contact": {
-        "type": "object",
-        "required": [
-          "name",
-          "phoneNumber",
-          "contactType",
-          "userId"
-        ],
-        "properties": {
-          "name": {
-            "description": "Contact name",
-            "type": "string",
-            "example": "John Doe"
-          },
-          "phoneNumber": {
-            "description": "Contact phone number",
-            "type": "string",
-            "example": 380000000004
-          },
-          "contactType": {
-            "description": "Contact type",
-            "type": "string",
-            "enum": [
-              "work",
-              "home",
-              "personal"
-            ]
-          },
-          "userId": {
-            "description": "User id",
-            "type": "string",
-            "example": "65e4decdd286b30065d54af9"
+      },
+      "500": {
+        "description": "Internal server error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "status",
+                "message",
+                "data"
+              ],
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 500
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Internal Server Error"
+                },
+                "data": {
+                  "type": "object",
+                  "required": [
+                    "message"
+                  ],
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Something went wrong on the server."
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
