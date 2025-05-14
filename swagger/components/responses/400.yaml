@@ -23,4 +23,4 @@ content:
           properties:
             message:
               type: string
-              example: 'Invalid request body'
+              example: 'Bad request'
